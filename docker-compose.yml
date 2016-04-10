@@ -1,0 +1,21 @@
+version: '2'
+services:
+  web:
+    build: .
+    volumes:
+      - .:/app
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    ports:
+      - "3000:3000"
+
+  spring:
+    build: .
+    volumes:
+      - .:/app
+    command: spring server
+
+    # This ensures that the pid namespace is shared between the host
+    # and the container. It's not necessary to be able to run spring
+    # commands, but it is necessary for "spring status" and "spring stop"
+    # to work properly.
+    pid: host
